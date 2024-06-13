@@ -1,6 +1,6 @@
 import { CalendarIcon } from "lucide-react";
 
-import { useDayName, useTempature } from "@/lib/hooks";
+import { formatTempature, getDayName } from "@/lib/utils";
 import { Forecast, List } from "@/types";
 
 import { Card, CardContent, CardHeader } from "../ui/card";
@@ -13,8 +13,8 @@ export const WeeklyForecastItem = ({
   item: List;
   timezone: number;
 }) => {
-  const temp = useTempature(item.main.temp);
-  const day = useDayName(timezone, item.dt, "short");
+  const temp = formatTempature(item.main.temp);
+  const day = getDayName(timezone, item.dt, "short");
   const isToday = new Date().getDate() === new Date(item.dt).getDate();
 
   return (

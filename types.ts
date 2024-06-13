@@ -71,3 +71,10 @@ export interface Coord {
   lat: number;
   lon: number;
 }
+
+export interface Location {
+  id: number;
+  city: string;
+  country: string;
+  coords: Coord;
+}

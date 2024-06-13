@@ -1,12 +1,16 @@
 import { EyeIcon } from "lucide-react";
 
-import { useDistance, useVisibilityMessage } from "@/lib/hooks";
+import { formatDistance } from "@/lib/utils";
 
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 export const Visibility = ({ value }: { value: number }) => {
-  const distance = useDistance(value);
-  const message = useVisibilityMessage(value);
+  const distance = formatDistance(value);
+  const message = () => {
+    if (value >= 1000) return "It's perfectly clear right now.";
+    if (value >= 500) return "Good visibility.";
+    return "Poor visibility. Exercise caution while driving or moving around.";
+  };
 
   return (
     <Card className="flex-1">
@@ -22,7 +26,7 @@ export const Visibility = ({ value }: { value: number }) => {
       </CardContent>
 
       <CardFooter>
-        <span className="text-sm">{message}</span>
+        <span className="text-sm">{message()}</span>
       </CardFooter>
     </Card>
   );

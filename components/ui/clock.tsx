@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useLocalTime } from "@/lib/hooks";
+import { getLocalTime } from "@/lib/utils";
 
 interface ClockProps {
   initial?: Date;
@@ -10,7 +10,7 @@ interface ClockProps {
 }
 
 export const Clock = ({ initial = new Date(), timezone }: ClockProps) => {
-  const localTime = useLocalTime(initial, timezone);
+  const localTime = getLocalTime(initial, timezone);
   const [time, setTime] = useState(localTime);
 
   useEffect(() => {

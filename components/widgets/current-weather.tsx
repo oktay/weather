@@ -1,6 +1,6 @@
 import { NavigationIcon } from "lucide-react";
 
-import { useDayName, useTempature } from "@/lib/hooks";
+import { formatTempature, getDayName } from "@/lib/utils";
 import { City, List } from "@/types";
 
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
@@ -9,10 +9,10 @@ import { WeatherIcon } from "../ui/weather-icon";
 
 export const CurrentWeather = ({ data, city }: { data: List; city: City }) => {
   const [weather] = data.weather;
-  const temp = useTempature(data.main.temp);
-  const highest = useTempature(data.main.temp_max);
-  const lowest = useTempature(data.main.temp_min);
-  const day = useDayName(city.timezone, data.dt, "long");
+  const temp = formatTempature(data.main.temp);
+  const highest = formatTempature(data.main.temp_max);
+  const lowest = formatTempature(data.main.temp_min);
+  const day = getDayName(city.timezone, data.dt, "long");
 
   return (
     <Card>

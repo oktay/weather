@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ThemeProvider } from "next-themes";
 
+import { LocationDialog } from "@/components/location-dialog";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={GeistSans.variable}>
+    <html lang="en" className={GeistSans.variable} suppressHydrationWarning>
       <body>
         <ThemeProvider
           attribute="class"
@@ -33,6 +34,7 @@ export default function RootLayout({
             <div className="container max-w-screen-lg flex items-center h-14">
               <div className="flex gap-2 ml-auto">
                 <ModeToggle />
+                <LocationDialog />
                 <Button className="font-semibold" asChild>
                   <Link href="https://github.com/oktay/weather" target="_blank">
                     <BookMarkedIcon size={18} className="mr-2" />

@@ -1,13 +1,19 @@
 import { ThermometerIcon } from "lucide-react";
 
-import { useFeelsMessage, useTempature } from "@/lib/hooks";
+import { formatTempature } from "@/lib/utils";
 import { Main } from "@/types";
 
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 export const FeelsLike = ({ data }: { data: Main }) => {
-  const message = useFeelsMessage(data.temp, data.feels_like);
-  const temp = useTempature(data.feels_like);
+  const temp = formatTempature(data.feels_like);
+  const message = () => {
+    if (data.feels_like < data.temp)
+      return "Feels colder than the actual temperature.";
+    if (data.feels_like > data.temp)
+      return "Feels warmer than the actual temperature.";
+    return "Feels like the actual temperature.";
+  };
 
   return (
     <Card className="flex-1">
@@ -23,7 +29,7 @@ export const FeelsLike = ({ data }: { data: Main }) => {
       </CardContent>
 
       <CardFooter>
-        <span className="text-sm">{message}</span>
+        <span className="text-sm">{message()}</span>
       </CardFooter>
     </Card>
   );

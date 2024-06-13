@@ -1,12 +1,16 @@
 import { DropletsIcon } from "lucide-react";
 
-import { useHumidityMessage, useTempature } from "@/lib/hooks";
+import { formatTempature } from "@/lib/utils";
 
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 export const Humidity = ({ value }: { value: number }) => {
-  const temp = useTempature(value);
-  const message = useHumidityMessage(value);
+  const temp = formatTempature(value);
+  const message = () => {
+    if (value < 40) return "Low humidity. It might feel dry.";
+    if (value < 70) return "Moderate humidity. Comfortable conditions.";
+    return "High humidity. It might feel humid and uncomfortable.";
+  };
 
   return (
     <Card className="flex-1">
@@ -22,7 +26,7 @@ export const Humidity = ({ value }: { value: number }) => {
       </CardContent>
 
       <CardFooter>
-        <span className="text-sm">{message}</span>
+        <span className="text-sm">{message()}</span>
       </CardFooter>
     </Card>
   );
