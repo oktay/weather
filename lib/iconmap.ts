@@ -1,4 +1,4 @@
-export const weatherIconMappings: Record<string, string> = {
+export const ICON_MAP: Record<string, string> = {
   "200": "thunderstorm",
   "201": "thunderstorm",
   "202": "thunderstorm",

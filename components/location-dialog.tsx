@@ -2,7 +2,7 @@
 
 import { NavigationIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import {
   CommandDialog,
@@ -12,19 +12,15 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useLocationsAutocomplete } from "@/hooks/use-locations-autocomplete";
-import { LOCATION_SUGGESTIONS } from "@/lib/constants";
+import { useDisclosure, useLocations } from "@/hooks";
+import { DEFAULT_SUGGESTIONS } from "@/lib/constants";
 import { Location } from "@/types";
 
-import { Button } from "./ui/button";
+import { Button, ButtonProps } from "./ui/button";
 
-export const LocationButton = ({
-  onClick,
-}: {
-  onClick: MouseEventHandler<HTMLButtonElement>;
-}) => {
+export const LocationButton = ({ ...props }: ButtonProps) => {
   return (
-    <Button variant="outline" onClick={onClick}>
+    <Button variant="outline" {...props}>
       <NavigationIcon size={14} className="mr-2" />
       <p className="text-sm text-muted-foreground">Change location...</p>
     </Button>
@@ -39,50 +35,55 @@ export const LocationItem = ({
   onSelect: (value: string) => void;
 }) => {
   const value = [
-    location.city,
+    location.name,
+    location.state,
     location.country,
-    location.coords.lat,
-    location.coords.lon,
-  ].join(" ");
+    location.lat,
+    location.lon,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const name = [location.name, location.state, location.country]
+    .filter(Boolean)
+    .join(", ");
 
   return (
     <CommandItem value={value} onSelect={onSelect}>
       <NavigationIcon size={16} className="mr-2" />
       <p className="flex items-center gap-4">
-        <span>
-          {location.city}, {location.country}
-        </span>
+        <span>{name}</span>
       </p>
     </CommandItem>
   );
 };
 
 export const LocationDialog = () => {
-  const [open, setOpen] = useState(false);
-  const { results, loading, value, setValue } = useLocationsAutocomplete();
+  const { results, loading, value, setValue } = useLocations();
+  const { isOpen, open, close, toggle } = useDisclosure();
   const router = useRouter();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        toggle();
       }
     };
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [toggle]);
 
   const handleLocationSelect = (location: Location) => {
-    router.replace(`/?lat=${location.coords.lat}&lon=${location.coords.lon}`);
-    setOpen(false);
+    router.replace(`/?lat=${location.lat}&lon=${location.lon}`);
+    close();
   };
 
   return (
     <>
-      <LocationButton onClick={() => setOpen(true)} />
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <LocationButton onClick={open} />
+      <CommandDialog open={isOpen} onOpenChange={toggle}>
         <CommandInput
           value={value}
           onValueChange={setValue}
@@ -99,9 +100,9 @@ export const LocationDialog = () => {
 
           {value === "" && (
             <CommandGroup heading="Suggestions">
-              {LOCATION_SUGGESTIONS.map((location) => (
+              {DEFAULT_SUGGESTIONS.map((location) => (
                 <LocationItem
-                  key={location.id}
+                  key={location.lat}
                   location={location}
                   onSelect={() => handleLocationSelect(location)}
                 />
@@ -113,7 +114,7 @@ export const LocationDialog = () => {
             <CommandGroup heading="Results">
               {results.map((location) => (
                 <LocationItem
-                  key={location.id}
+                  key={location.lat}
                   location={location}
                   onSelect={() => handleLocationSelect(location)}
                 />

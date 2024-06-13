@@ -15,11 +15,11 @@ export const Clock = ({ initial = new Date(), timezone }: ClockProps) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime(localTime);
+      setTime(getLocalTime(new Date(), timezone));
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [localTime]);
+  }, [localTime, timezone]);
 
   return (
     <div suppressHydrationWarning>

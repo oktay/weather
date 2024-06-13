@@ -1,9 +1,10 @@
-import { Coord, Forecast } from "@/types";
+import { cache } from "react";
 
-import { API_KEY } from "./constants";
+import { Coord, Forecast, Location } from "@/types";
 
-export const getForecast = async ({ lat, lon }: Coord): Promise<Forecast> => {
-  const url = `https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+import API_ENDPOINTS from "./endpoints";
+
+export const fetcher = async (url: string) => {
   const resp = await fetch(url, {
     next: { revalidate: 3600 },
     cache: "force-cache",
@@ -12,16 +13,11 @@ export const getForecast = async ({ lat, lon }: Coord): Promise<Forecast> => {
   return await resp.json();
 };
 
-export const getLocations = async ({
-  query,
-}: {
-  query: string;
-}): Promise<any> => {
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`;
-  const resp = await fetch(url, {
-    next: { revalidate: 3600 },
-    cache: "force-cache",
-  });
-  if (!resp.ok) throw Error(resp.statusText);
-  return await resp.json();
-};
+export const getForecast = cache(
+  (coords: Coord): Promise<Forecast> => fetcher(API_ENDPOINTS.forecast(coords)),
+);
+
+export const getLocations = cache(
+  (params: Record<string, string>): Promise<Location[]> =>
+    fetcher(API_ENDPOINTS.location(params)),
+);

@@ -5,7 +5,7 @@ import { useDebounce } from "use-debounce";
 
 import { Location } from "@/types";
 
-export const useLocationsAutocomplete = () => {
+export const useLocations = () => {
   const [value, setValue] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [results, setResults] = useState<Location[]>([]);

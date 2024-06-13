@@ -3,8 +3,8 @@ import { CalendarIcon } from "lucide-react";
 import { formatTempature, getDayName } from "@/lib/utils";
 import { Forecast, List } from "@/types";
 
-import { Card, CardContent, CardHeader } from "../ui/card";
-import { WeatherIcon } from "../ui/weather-icon";
+import { Card, CardContent, CardHeader } from "./ui/card";
+import { WeatherIcon } from "./ui/weather-icon";
 
 export const WeeklyForecastItem = ({
   item,
@@ -13,16 +13,14 @@ export const WeeklyForecastItem = ({
   item: List;
   timezone: number;
 }) => {
-  const temp = formatTempature(item.main.temp);
-  const day = getDayName(timezone, item.dt, "short");
-  const isToday = new Date().getDate() === new Date(item.dt).getDate();
-
   return (
     <div
       key={item.dt}
       className="flex justify-between md:flex-col gap-4 items-center"
     >
-      <span className="opacity-60 flex-1">{isToday ? "Today" : day}</span>
+      <span className="opacity-60 flex-1">
+        {getDayName(timezone, item.dt, "short")}
+      </span>
 
       <WeatherIcon
         className="text-2xl"
@@ -30,7 +28,9 @@ export const WeeklyForecastItem = ({
         pod={item.sys.pod}
       />
 
-      <span className="flex-1 text-right">{temp}</span>
+      <span className="flex-1 text-right">
+        {formatTempature(item.main.temp)}
+      </span>
     </div>
   );
 };

@@ -68,13 +68,12 @@ export interface City {
 }
 
 export interface Coord {
-  lat: number;
-  lon: number;
+  lat: number | string;
+  lon: number | string;
 }
 
-export interface Location {
-  id: number;
-  city: string;
+export interface Location extends Coord {
+  name: string;
   country: string;
-  coords: Coord;
+  state?: string;
 }

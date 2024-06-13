@@ -23,16 +23,13 @@ export const getLocalTime = (
   initialTime: Date,
   offsetSeconds: number,
 ): Date => {
-  const localTime = new Date(initialTime.getTime() + offsetSeconds * 1000);
-  return localTime;
+  return new Date(initialTime.getTime() + offsetSeconds * 1000);
 };
 
 export const formatTempature = (temp: number) => {
-  const tempature = Math.round(temp);
-  return <>{tempature}&deg;</>;
+  return <>{Math.round(temp)}&deg;</>;
 };
 
 export const formatDistance = (value: number) => {
-  const valueInKm = Math.round(value) / 1000;
-  return `${valueInKm} km`;
+  return `${Math.round(value) / 1000} km`;
 };

@@ -3,15 +3,14 @@ import { NavigationIcon } from "lucide-react";
 import { formatTempature, getDayName } from "@/lib/utils";
 import { City, List } from "@/types";
 
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
-import { Clock } from "../ui/clock";
-import { WeatherIcon } from "../ui/weather-icon";
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import { Clock } from "./ui/clock";
+import { WeatherIcon } from "./ui/weather-icon";
 
 export const CurrentWeather = ({ data, city }: { data: List; city: City }) => {
-  const [weather] = data.weather;
-  const temp = formatTempature(data.main.temp);
-  const highest = formatTempature(data.main.temp_max);
-  const lowest = formatTempature(data.main.temp_min);
+  const [current] = data.weather;
+  const { main, description, id } = current;
+  const { temp, temp_max, temp_min } = data.main;
   const day = getDayName(city.timezone, data.dt, "long");
 
   return (
@@ -31,7 +30,7 @@ export const CurrentWeather = ({ data, city }: { data: List; city: City }) => {
       <CardContent>
         <div className="py-12 flex flex-col gap-4">
           <div className="text-9xl font-bold text-center">
-            <span>{temp}</span>
+            <span>{formatTempature(temp)}</span>
           </div>
         </div>
       </CardContent>
@@ -39,21 +38,17 @@ export const CurrentWeather = ({ data, city }: { data: List; city: City }) => {
       <CardFooter>
         <div className="flex flex-1 justify-between items-end">
           <div className="flex items-center gap-3">
-            <WeatherIcon
-              className="text-3xl"
-              code={weather.id}
-              pod={data.sys.pod}
-            />
+            <WeatherIcon className="text-3xl" code={id} pod={data.sys.pod} />
 
             <div className="flex flex-col">
-              <span className="font-semibold">{weather.main}</span>
-              <span className="opacity-70 text-sm">{weather.description}</span>
+              <span className="font-semibold">{main}</span>
+              <span className="opacity-70 text-sm">{description}</span>
             </div>
           </div>
 
           <div className="flex gap-2 opacity-70">
-            <span>H: {highest}</span>
-            <span>L: {lowest}</span>
+            <span>H: {formatTempature(temp_max)}</span>
+            <span>L: {formatTempature(temp_min)}</span>
           </div>
         </div>
       </CardFooter>
