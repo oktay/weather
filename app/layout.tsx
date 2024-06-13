@@ -1,3 +1,4 @@
+import "weather-icons/css/weather-icons.min.css";
 import "./globals.css";
 
 import { GeistSans } from "geist/font/sans";
