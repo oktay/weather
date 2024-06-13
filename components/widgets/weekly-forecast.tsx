@@ -42,12 +42,12 @@ export const WeeklyForecast = ({ data }: { data: Forecast }) => {
     <Card className="mt-4">
       <CardHeader>
         <div className="flex items-center text-sm gap-2">
-          <CalendarIcon size={14} />
+          <CalendarIcon size={16} />
           <span>Weekly Forecast</span>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col md:flex-row justify-between">
+        <div className="flex flex-col md:flex-row justify-between gap-4">
           {list.map((item) => (
             <WeeklyForecastItem
               key={item.dt}

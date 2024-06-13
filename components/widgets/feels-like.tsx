@@ -13,7 +13,7 @@ export const FeelsLike = ({ data }: { data: Main }) => {
     <Card className="flex-1">
       <CardHeader>
         <div className="flex items-center text-sm gap-2">
-          <ThermometerIcon size={14} />
+          <ThermometerIcon size={16} />
           <span>Feels Like</span>
         </div>
       </CardHeader>
