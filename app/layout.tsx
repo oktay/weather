@@ -37,8 +37,8 @@ export default function RootLayout({
                 <LocationDialog />
                 <Button className="font-semibold" asChild>
                   <Link href="https://github.com/oktay/weather" target="_blank">
-                    <BookMarkedIcon size={18} className="mr-2" />
-                    Source Code
+                    <BookMarkedIcon size={18} className="md:mr-2" />
+                    <span className="sr-only md:not-sr-only">Source Code</span>
                   </Link>
                 </Button>
               </div>
