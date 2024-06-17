@@ -31,12 +31,11 @@ export const getLocalTime = (
 export const formatTemperature = (temp: number) => {
   const formatter = new Intl.NumberFormat("en-US", {
     style: "unit",
-    unit: "celsius",
+    unit: "degree",
     unitDisplay: "narrow",
-    maximumFractionDigits: 0,
   });
-
-  return formatter.format(temp);
+  const value = Math.round(temp);
+  return formatter.format(value);
 };
 
 export const formatDistance = (value: number) => {
@@ -46,7 +45,6 @@ export const formatDistance = (value: number) => {
     unitDisplay: "short",
     maximumFractionDigits: 0,
   });
-
   return formatter.format(value / 1000);
 };
 
