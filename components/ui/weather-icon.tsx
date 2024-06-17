@@ -1,14 +1,23 @@
+import React from "react";
 import { twMerge } from "tailwind-merge";
 
 import { ICON_MAP } from "@/lib/iconmap";
 
-interface WeatherIconProps {
+interface WeatherIconProps
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLElement>,
+    HTMLSpanElement
+  > {
   code: any;
   pod?: any;
-  className?: string;
 }
 
-export const WeatherIcon = ({ code, pod, className }: WeatherIconProps) => {
+export const WeatherIcon = ({
+  code,
+  pod,
+  className,
+  ...props
+}: WeatherIconProps) => {
   const key = pod ? `${code}${pod}` : code;
   const name = ICON_MAP[key];
 
@@ -19,6 +28,7 @@ export const WeatherIcon = ({ code, pod, className }: WeatherIconProps) => {
         "flex items-center justify-center",
         className,
       )}
+      {...props}
     />
   );
 };

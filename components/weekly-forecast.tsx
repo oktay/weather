@@ -1,6 +1,6 @@
 import { CalendarIcon } from "lucide-react";
 
-import { formatTempature, getDayName } from "@/lib/utils";
+import { formatTemperature, getDayName } from "@/lib/utils";
 import { Forecast, List } from "@/types";
 
 import { Card, CardContent, CardHeader } from "./ui/card";
@@ -29,7 +29,7 @@ export const WeeklyForecastItem = ({
       />
 
       <span className="flex-1 text-right">
-        {formatTempature(item.main.temp)}
+        {formatTemperature(item.main.temp)}
       </span>
     </div>
   );

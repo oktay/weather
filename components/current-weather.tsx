@@ -1,6 +1,6 @@
 import { NavigationIcon } from "lucide-react";
 
-import { formatTempature, getDayName } from "@/lib/utils";
+import { formatTemperature, getDayName } from "@/lib/utils";
 import { City, List } from "@/types";
 
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
@@ -11,13 +11,12 @@ export const CurrentWeather = ({ data, city }: { data: List; city: City }) => {
   const [current] = data.weather;
   const { main, description, id } = current;
   const { temp, temp_max, temp_min } = data.main;
-  const day = getDayName(city.timezone, data.dt, "long");
 
   return (
     <Card>
       <CardHeader>
         <div className="flex justify-between text-lg font-semibold">
-          <span>{day}</span>
+          <span>{getDayName(city.timezone, data.dt, "long")}</span>
           <Clock timezone={city.timezone} />
         </div>
 
@@ -30,7 +29,7 @@ export const CurrentWeather = ({ data, city }: { data: List; city: City }) => {
       <CardContent>
         <div className="py-12 flex flex-col gap-4">
           <div className="text-9xl font-bold text-center">
-            <span>{formatTempature(temp)}</span>
+            <span>{formatTemperature(temp)}</span>
           </div>
         </div>
       </CardContent>
@@ -47,8 +46,8 @@ export const CurrentWeather = ({ data, city }: { data: List; city: City }) => {
           </div>
 
           <div className="flex gap-2 opacity-70">
-            <span>H: {formatTempature(temp_max)}</span>
-            <span>L: {formatTempature(temp_min)}</span>
+            <span>H: {formatTemperature(temp_max)}</span>
+            <span>L: {formatTemperature(temp_min)}</span>
           </div>
         </div>
       </CardFooter>

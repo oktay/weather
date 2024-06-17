@@ -7,7 +7,6 @@ import API_ENDPOINTS from "./endpoints";
 export const fetcher = async (url: string) => {
   const resp = await fetch(url, {
     next: { revalidate: 3600 },
-    cache: "force-cache",
   });
   if (!resp.ok) throw Error(resp.statusText);
   return await resp.json();
